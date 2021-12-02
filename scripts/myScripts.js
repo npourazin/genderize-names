@@ -1,9 +1,10 @@
 input_name = document.getElementById('input-name');
 
 function start_up(){
-    //reset objects and ...
+    //reset input name
     input_name = document.getElementById('input-name');
     input_name.value = "";
+
     //uncheck radio button
     for (let e of document.getElementsByName('gender')) {
         e.checked = null;
@@ -11,6 +12,7 @@ function start_up(){
 
     document.getElementById('predicted-gender').innerHTML = null;
     document.getElementById('predicted-probability').innerHTML = null;
+
     document.getElementById('results').style.display = 'none';
     document.getElementById('saved').style.display = 'none';
 }
@@ -27,30 +29,45 @@ function check_valid_name(name){
 function submit_func(){
     event.preventDefault();
 
+    //first remove both displays
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('saved').style.display = 'none';
+
     //refill the parameter just in case
     input_name = document.getElementById('input-name');
     console.log(input_name)
 	if(input_name.value == ""){
-		console.log("please enter a name.")
+		console.log(EMPTY_NAME_FIELD_MESSAGE)
 	}
 	else{
 	    if (!check_valid_name(input_name.value)){
-	        console.log("Invalid format.")
+	        console.log(INVALID_NAME_MESSAGE)
+	        //reset to startup state
+	        start_up()
+
+	        //re-show the result box
+	        document.getElementById('results').style.display = 'block';
+
 	        return;
 	    }
+
 	    // show the prediction box
 	    document.getElementById('results').style.display = 'block';
 
 	    // get prediction from api
 		ans = request_api()
 		console.log(ans)
+
 		// parse JSON result
 		var data = JSON.parse(ans)
+
+		//put the values on corresponding <p> tags
 		document.getElementById('predicted-gender').innerHTML = data.gender;
 		document.getElementById('predicted-probability').innerHTML = data.probability;
 
 		if(data.gender==null){
-		    document.getElementById('predicted-gender').innerHTML = "No Predicted value found";
+		    //if the gender could not be determined by genderize api.
+		    document.getElementById('predicted-gender').innerHTML = NO_PREDICTION_MESSAGE;
 		}
 
 		if(localStorage.getItem(input_name.value)!=null){
@@ -104,11 +121,11 @@ function save_func(){
     submit_func()
 
     if(input_name.value == ""){
-    	console.log("please enter a name.")
+    	console.log(EMPTY_NAME_FIELD_MESSAGE)
     	return;
     }
     if (!check_valid_name(input_name.value)){
-    	console.log("Invalid format.")
+    	console.log(INVALID_NAME_MESSAGE)
         return;
     }
 
@@ -122,7 +139,7 @@ function save_func(){
             localStorage.setItem(input_name.value, data.gender);
         }
         else{
-            console.log("Nothing Selected and no prediction available. nothing was saved.")
+            console.log(SAVE_ERROR_MESSAGE)
             return;
         }
     }
@@ -143,7 +160,7 @@ function clear_func(){
     submit_func()
 
     if (!check_valid_name(input_name.value)){
-    	console.log("Invalid format.")
+    	console.log(INVALID_NAME_MESSAGE)
         return;
     }
 
@@ -151,7 +168,7 @@ function clear_func(){
         localStorage.removeItem(input_name.value)
     }
     else{
-        console.log("The inputed name does not exist in the saved database.")
+        console.log(REMOVE_ERROR_MESSAGE)
     }
     document.getElementById('saved').style.display = 'none';
 }
