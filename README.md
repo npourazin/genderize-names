@@ -31,6 +31,8 @@ This project is loaded on github pages. to view it, please check out this link.
 ## Usage
 
 Some additional usage examples will be added here
+
+
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -51,6 +53,6 @@ Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information
 
 Niki Pourazin - [@npourazin](https://github.com/npourazin) - npourazin@aut.ac.ir
 
-Project Link: [https://github.com/npourazin/Ordered-Dithering](https://github.com/npourazin/Ordered-Dithering)
+Project Link: [https://github.com/npourazin/genderize-names](https://github.com/npourazin/genderize-names)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
