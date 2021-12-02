@@ -1,0 +1,26 @@
+.grid-container {
+	/*-----Grid-----*/
+    /*use grid layout for the container*/
+    display: grid;
+    /*the grid has two columns, but the proposition is auto*/
+    grid-template-columns: auto auto; 
+    /*there is 10px gap between columns*/
+    grid-column-gap: 10px;
+
+    /*-----Container Positioning-----*/
+    text-align: center;
+    /*source: https://stackoverflow.com/a/50925544*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}

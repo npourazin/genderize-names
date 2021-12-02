@@ -5,8 +5,30 @@
     <link rel="stylesheet" href="styles/myStyles.css">
 </head>
 <body>
-<div>
-    <p>Hello world!</p>
+<div class="grid-container">
+    <form name="collect-data" class="grid-item">
+        <label for="input-name">Name:</label>
+        <input id="input-name" type="text" name="name" value="" size="20" maxlength="255"/>
+        <br/>
+        <br/>
+
+        <p>Choose gender: </p>
+
+        <input id="male" type="radio" name="gender" value="male"/>
+        <label for="male">Male</label>
+        <br/>
+
+        <input id="female" type="radio" name="gender" value="female"/>
+        <label for="female">Female</label>
+        <br/>
+
+        <button id="submit-form" type="submit" onclick="">Submit!</button>
+        <button id="save-form" onclick="">Save!</button>
+
+    </form>
+    <div id="result" class="grid-item">
+        Prediction
+    </div>
 </div>
 </body>
 
