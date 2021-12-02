@@ -93,6 +93,14 @@ function save_func(){
     */
     event.preventDefault();
 
+    // also do the prediction as the name field might be changed.
+    submit_func()
+
+    if(input_name.value == ""){
+    	console.log("please enter a name.")
+    	return;
+    }
+
     selectedGender = get_gender_radio_button_value()
     console.log(selectedGender)
 
@@ -104,9 +112,30 @@ function save_func(){
         }
         else{
             console.log("Nothing Selected and no prediction available. nothing was saved.")
+            return;
         }
     }
     else{
         localStorage.setItem(input_name.value, selectedGender);
     }
+
+    document.getElementById('saved').style.display = 'block';
+    document.getElementById('saved-answer-text').innerHTML = localStorage.getItem(input_name.value);
+
+}
+
+
+function clear_func(){
+    event.preventDefault();
+
+    // also do the prediction as the name field might be changed.
+    submit_func()
+
+    if(localStorage.getItem(input_name.value)!=null){
+        localStorage.removeItem(input_name.value)
+    }
+    else{
+        console.log("The inputed name does not exist in the saved database.")
+    }
+    document.getElementById('saved').style.display = 'none';
 }
