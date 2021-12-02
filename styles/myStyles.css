@@ -5,6 +5,7 @@ body {
 
     background-repeat: no-repeat;
     background-size: cover;
+    margin:0px;
 }
 
 .grid-container {
@@ -34,15 +35,22 @@ body {
 
     border-radius: 25px;
     font-weight: 700;
-    padding: 30px;
+    padding: 20px;
+    padding-bottom: 15px;
     font-size: 20px;
     text-align: left;
 }
 
 .Head-title{
+    margin-top: 15px;
+    padding = 5px;
     font-weight: bold;
     font-size: 30px;
     text-align: left;
+}
+
+p {
+    margin:10px;
 }
 
 #saved{
@@ -74,4 +82,15 @@ body {
   background-color: rgb(26, 83, 255);
   box-shadow: 0 3px #666;
   transform: translateY(2px);
+}
+
+#pop-up-message{
+    max-width: 400px;
+    margin: 10px;
+    font-size: 20px;
+    padding: 5px;
+    background-color: rgba(255, 0, 0, 1);
+    color: white;
+    border-radius: 25px;
+    text-align: center;
 }

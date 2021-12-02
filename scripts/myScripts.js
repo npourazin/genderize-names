@@ -1,5 +1,7 @@
 input_name = document.getElementById('input-name');
 
+// -------------    RESET FUNCTION    -----------------
+// this function is used on startups or resets
 function start_up(){
     //reset input name
     input_name = document.getElementById('input-name');
@@ -15,71 +17,18 @@ function start_up(){
 
     document.getElementById('results').style.display = 'none';
     document.getElementById('saved').style.display = 'none';
+
+    // reset the status pop-up
+    document.getElementById('pop-up-message').style.display = 'none';
+    document.getElementById('pop-up-message').innerHTML = null;
 }
 
+// on each refreshing or loading of the page, we reset the state to start_up state
 window.onload = function() {
     start_up()
 };
 
-function check_valid_name(name){
-    return /^[A-Za-z ]{1,255}$/.test(name);
-}
-
-// onclick event on submit button calls this function.
-function submit_func(){
-    event.preventDefault();
-
-    //first remove both displays
-    document.getElementById('results').style.display = 'none';
-    document.getElementById('saved').style.display = 'none';
-
-    //refill the parameter just in case
-    input_name = document.getElementById('input-name');
-    console.log(input_name)
-	if(input_name.value == ""){
-		console.log(EMPTY_NAME_FIELD_MESSAGE)
-	}
-	else{
-	    if (!check_valid_name(input_name.value)){
-	        console.log(INVALID_NAME_MESSAGE)
-	        //reset to startup state
-	        start_up()
-
-	        //re-show the result box
-	        document.getElementById('results').style.display = 'block';
-
-	        return;
-	    }
-
-	    // show the prediction box
-	    document.getElementById('results').style.display = 'block';
-
-	    // get prediction from api
-		ans = request_api()
-		console.log(ans)
-
-		// parse JSON result
-		var data = JSON.parse(ans)
-
-		//put the values on corresponding <p> tags
-		document.getElementById('predicted-gender').innerHTML = data.gender;
-		document.getElementById('predicted-probability').innerHTML = data.probability;
-
-		if(data.gender==null){
-		    //if the gender could not be determined by genderize api.
-		    document.getElementById('predicted-gender').innerHTML = NO_PREDICTION_MESSAGE;
-		}
-
-		if(localStorage.getItem(input_name.value)!=null){
-		    // if there are saved results in local storage, show them
-		    document.getElementById('saved').style.display = 'block';
-		   	document.getElementById('saved-answer-text').innerHTML = localStorage.getItem(input_name.value);
-
-		}
-	}
-
-}
-
+// -------------    FUNCTIONS TO BE USED IN EVENT LISTENERS    -----------------
 
 function request_api(){
     /*
@@ -108,6 +57,80 @@ function get_gender_radio_button_value() {
     return null;
 }
 
+function check_valid_name(name){
+    return /^[A-Za-z ]{1,255}$/.test(name);
+}
+
+// -------------    EVENT LISTENERS    -----------------
+
+// onclick event on submit button calls this function.
+function submit_func(){
+    event.preventDefault();
+
+    //first remove both displays
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('saved').style.display = 'none';
+    // reset the status pop-up
+    document.getElementById('pop-up-message').style.display = 'none';
+    document.getElementById('pop-up-message').innerHTML = null;
+
+    //refill the parameter just in case
+    input_name = document.getElementById('input-name');
+    console.log(input_name)
+	if(input_name.value == "" || !check_valid_name(input_name.value)){
+	    tmp = input_name.value
+
+        //reset to startup state
+        start_up()
+
+	    if(tmp == ""){
+	        console.log(EMPTY_NAME_FIELD_MESSAGE)
+            document.getElementById('pop-up-message').innerHTML = EMPTY_NAME_FIELD_MESSAGE;
+         }
+	    else{
+	        console.log(INVALID_NAME_MESSAGE)
+	        document.getElementById('pop-up-message').innerHTML = INVALID_NAME_MESSAGE;
+	    }
+
+	    document.getElementById('pop-up-message').style.display = 'block';
+
+        //re-show the result box and hide prediction
+        document.getElementById('prediction').style.display = 'none';
+        document.getElementById('results').style.display = 'block';
+
+		return null;
+	}
+	else{
+	    // show the prediction box
+	    document.getElementById('prediction').style.display = 'block';
+	    document.getElementById('results').style.display = 'block';
+
+	    // get prediction from api
+		ans = request_api()
+		console.log(ans)
+
+		// parse JSON result
+		var data = JSON.parse(ans)
+
+		//put the values on corresponding <p> tags
+		document.getElementById('predicted-gender').innerHTML = data.gender;
+		document.getElementById('predicted-probability').innerHTML = data.probability;
+
+		if(data.gender==null){
+		    //if the gender could not be determined by genderize api.
+		    document.getElementById('predicted-gender').innerHTML = NO_PREDICTION_MESSAGE;
+		}
+
+		if(localStorage.getItem(input_name.value)!=null){
+		    // if there are saved results in local storage, show them
+		    document.getElementById('saved').style.display = 'block';
+		   	document.getElementById('saved-answer-text').innerHTML = localStorage.getItem(input_name.value);
+
+		}
+	}
+    return 0;
+}
+
 // onclick event on save button calls this function.
 function save_func(){
     /*
@@ -115,17 +138,11 @@ function save_func(){
         if no choice is selected, the function tries to save the prediction.
          If available, the gender is saved. otherwise, nothing is saved and no changes are made in storage.
     */
+
     event.preventDefault();
 
     // also do the prediction as the name field might be changed.
-    submit_func()
-
-    if(input_name.value == ""){
-    	console.log(EMPTY_NAME_FIELD_MESSAGE)
-    	return;
-    }
-    if (!check_valid_name(input_name.value)){
-    	console.log(INVALID_NAME_MESSAGE)
+    if (submit_func()==null){
         return;
     }
 
@@ -140,6 +157,8 @@ function save_func(){
         }
         else{
             console.log(SAVE_ERROR_MESSAGE)
+            document.getElementById('pop-up-message').style.display = 'block';
+            document.getElementById('pop-up-message').innerHTML = SAVE_ERROR_MESSAGE;
             return;
         }
     }
@@ -152,15 +171,17 @@ function save_func(){
 
 }
 
-
+// onclick event on clear button calls this function.
 function clear_func(){
+    /*
+        Removes the input name (and it's saved gender) from the local storage.
+        If no such name exists in the database, does nothing.
+    */
+
     event.preventDefault();
 
     // also do the prediction as the name field might be changed.
-    submit_func()
-
-    if (!check_valid_name(input_name.value)){
-    	console.log(INVALID_NAME_MESSAGE)
+    if (submit_func()==null){
         return;
     }
 
@@ -169,6 +190,8 @@ function clear_func(){
     }
     else{
         console.log(REMOVE_ERROR_MESSAGE)
+        document.getElementById('pop-up-message').style.display = 'block';
+        document.getElementById('pop-up-message').innerHTML = REMOVE_ERROR_MESSAGE;
     }
     document.getElementById('saved').style.display = 'none';
 }
