@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>IE Midterm Project</title>
     <link rel="stylesheet" href="styles/myStyles.css">
+    <script src="scripts/myScripts.js"></script>
+
 </head>
 <body>
 <div class="grid-container">
-    <form name="collect-data" class="grid-item">
+    <form name="collect-data" class="grid-item"  >
 
         <p class="Head-title">Mr. or Ms.?</p>
         <label for="input-name">Name:</label>
-        <input id="input-name" type="text" name="name" value="" size="20" maxlength="255" pattern="[a-zA-Z\s]+"/>
+        <input id="input-name" type="text" name="name" value="" size="20" maxlength="255" pattern="^[A-Za-z\s]*$"/>
         <br/>
 
         <p>Choose gender: </p>
@@ -23,7 +26,7 @@
         <br/>
         <br/>
 
-        <button id="submit-form" onclick="" class="button">Submit</button>
+        <button id="submit-form" onclick="submit_func()" class="button">Submit</button>
         <br/>
         <br/>
         <button id="save-form" onclick="" class="button">Save</button>
@@ -34,20 +37,20 @@
             <p class="Head-title">
                 Prediction:
             </p>
-            <p>---- </p>
-            <p>---- </p>
+            <p id="predicted-gender"></p>
+            <p id="predicted-probability"></p>
 
         </div>
         <div id="saved">
             <p class="Head-title">
                 Saved Answer:
             </p>
+            <p id="saved-answer-text"></p>
             <button id="clear-saved" onclick="" class="button">Clear</button>
         </div>
     </div>
 </div>
 </body>
 
-<script src="scripts/myScripts.js"></script>
 
 </html>
