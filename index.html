@@ -7,13 +7,13 @@
 <body>
 <div class="grid-container">
     <form name="collect-data" class="grid-item">
+
+        <p class="Head-title">Mr. or Ms.?</p>
         <label for="input-name">Name:</label>
         <input id="input-name" type="text" name="name" value="" size="20" maxlength="255"/>
         <br/>
-        <br/>
 
         <p>Choose gender: </p>
-
         <input id="male" type="radio" name="gender" value="male"/>
         <label for="male">Male</label>
         <br/>
@@ -21,13 +21,26 @@
         <input id="female" type="radio" name="gender" value="female"/>
         <label for="female">Female</label>
         <br/>
+        <br/>
 
         <button id="submit-form" type="submit" onclick="">Submit!</button>
         <button id="save-form" onclick="">Save!</button>
 
     </form>
-    <div id="result" class="grid-item">
-        Prediction
+    <div id="results" class="grid-item">
+        <div id="prediction">
+            <p class="Head-title">
+                Prediction:
+            </p>
+            <p>Predicted Gender: --- </p>
+            <p>Probability: --- </p>
+
+        </div>
+        <div id="saved">
+            <p class="Head-title">
+                Saved Data:
+            </p>
+        </div>
     </div>
 </div>
 </body>

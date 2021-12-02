@@ -9,18 +9,33 @@
 
     /*-----Container Positioning-----*/
     text-align: center;
-    /*source: https://stackoverflow.com/a/50925544*/
+    /*  source: https://stackoverflow.com/a/50925544   */
     position: fixed;
     top: 50%;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
+
+     border: 2.5px solid rgba(0, 0, 0, 0.8);
+     border-radius: 25px;
 }
 
 .grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  font-size: 30px;
-  text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 25px;
+
+    padding: 30px;
+    font-size: 20px;
+    text-align: left;
+}
+
+.Head-title{
+    font-size: 30px;
+    text-align: left;
+}
+
+#saved{
+    border: 3px dashed rgba(0, 0, 0, 0.8);
+    padding: 10px;
+
 }
