@@ -1,6 +1,20 @@
 input_name = document.getElementById('input-name');
 
+function start_up(){
+    //reset objects and ...
+    input_name = document.getElementById('input-name');
+    input_name.value = "";
+    //todo: uncheck radio button too
 
+    document.getElementById('predicted-gender').innerHTML = null;
+    document.getElementById('predicted-probability').innerHTML = null;
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('saved').style.display = 'none';
+}
+
+window.onload = function() {
+    start_up()
+};
 
 function submit_func(){
     event.preventDefault();
