@@ -4,7 +4,10 @@ function start_up(){
     //reset objects and ...
     input_name = document.getElementById('input-name');
     input_name.value = "";
-    //todo: uncheck radio button too
+    //uncheck radio button
+    for (let e of document.getElementsByName('gender')) {
+        e.checked = null;
+    }
 
     document.getElementById('predicted-gender').innerHTML = null;
     document.getElementById('predicted-probability').innerHTML = null;
@@ -16,6 +19,7 @@ window.onload = function() {
     start_up()
 };
 
+// onclick event on submit button calls this function.
 function submit_func(){
     event.preventDefault();
 
@@ -32,6 +36,7 @@ function submit_func(){
 	    // get prediction from api
 		ans = request_api()
 		console.log(ans)
+		// parse JSON result
 		var data = JSON.parse(ans)
 		document.getElementById('predicted-gender').innerHTML = data.gender;
 		document.getElementById('predicted-probability').innerHTML = data.probability;
@@ -40,12 +45,12 @@ function submit_func(){
 		    document.getElementById('predicted-gender').innerHTML = "No Predicted value found";
 		}
 
-//		if(){
-//		    // if there are saved results in local storage, show them
-//		    document.getElementById('saved').style.display = 'block';
-//		   	document.getElementById('saved-answer-text').innerHTML = ;
-//
-//		}
+		if(localStorage.getItem(input_name.value)!=null){
+		    // if there are saved results in local storage, show them
+		    document.getElementById('saved').style.display = 'block';
+		   	document.getElementById('saved-answer-text').innerHTML = localStorage.getItem(input_name.value);
+
+		}
 	}
 
 }
@@ -66,4 +71,42 @@ function request_api(){
     xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
     return xmlHttp.responseText;
+}
+
+function get_gender_radio_button_value() {
+    for (let e of document.getElementsByName('gender')) {
+        if (e.checked){
+        	//return selected gender
+            return e.value;
+        }
+    }
+    //no button is checked
+    return null;
+}
+
+// onclick event on save button calls this function.
+function save_func(){
+    /*
+        If a radio button choice is selected, That choice is saved in local storage. (overwritten if existed)
+        if no choice is selected, the function tries to save the prediction.
+         If available, the gender is saved. otherwise, nothing is saved and no changes are made in storage.
+    */
+    event.preventDefault();
+
+    selectedGender = get_gender_radio_button_value()
+    console.log(selectedGender)
+
+    if(selectedGender == null){
+        //save the prediction
+        data = JSON.parse(request_api())
+        if(data.gender!=null){
+            localStorage.setItem(input_name.value, data.gender);
+        }
+        else{
+            console.log("Nothing Selected and no prediction available. nothing was saved.")
+        }
+    }
+    else{
+        localStorage.setItem(input_name.value, selectedGender);
+    }
 }
