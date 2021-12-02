@@ -1,13 +1,27 @@
 body {
-    background: url('../images/pic.jpg') repeat 0 0 ;
+    /* set background image for body (and consequently, it's children) */
+    background: url('../images/pic.jpg') repeat 0 0;
     background-color: #cccccc;
 
+    /*repeat image vertically, because it looks nice :)*/
+    background-repeat: repeat-y;
+    /*
+    If we wanted to have no-repeat value above,
+    we would have used background-size (the width and height) and we should have set them to 100%
 
-    background-repeat: no-repeat;
+    I tried that too, but due to the specifications of this particular image,
+    the vertical repeat looks way better than forcefully covering any browser size(and needlessly zooming in some cases)
+
+    Therefore, As this project is also meant to be an exam,
+    In this comment I explained the other way to fill the screen without repeating the image.
+    */
+
     background-size: cover;
-    margin:0px;
+
+    margin: 0px;
 }
 
+/*this is the semi-transparent box's styling*/
 .grid-container {
 	/*-----Grid-----*/
     /*use grid layout for the container*/
@@ -19,6 +33,7 @@ body {
 
     /*-----Container Positioning-----*/
     text-align: center;
+
     /*  source: https://stackoverflow.com/a/50925544   */
     position: fixed;
     top: 50%;
@@ -26,13 +41,19 @@ body {
     margin-right: -50%;
     transform: translate(-50%, -50%);
 
+    /*background transparency set to 0.86 (less values made it hard to read)*/
     background-color: rgba(230, 238, 255, 0.86);
-     border: 2.5px solid rgba(0, 0, 0, 0.8);
-     border-radius: 25px;
+
+    /*border is drawn, and the edges are a bit rounded.*/
+    border: 2.5px solid rgba(0, 0, 0, 0.8);
+    border-radius: 25px;
 }
 
+/*Inside the grid-containers, there are multiple grid-items.*/
 .grid-item {
-
+    /*some specifications for all objects that are from grid-item class are added below (of course, if not overwritten)
+    Including: round edges, a bit stronger font (a bit bolder), some padding from the borders (the bottom one is less),
+    a text font-size and left-oriented alignment */
     border-radius: 25px;
     font-weight: 700;
     padding: 20px;
@@ -41,24 +62,37 @@ body {
     text-align: left;
 }
 
+/*This class was specifically used for the headings of different parts which they had tag <p> (not h1 to h6)
+and therefore needed some modifications*/
 .Head-title{
     margin-top: 15px;
-    padding = 5px;
+    padding: 5px;
     font-weight: bold;
     font-size: 30px;
     text-align: left;
 }
 
+/*For every object with <p> tag, we set the margin to 10px.
+of course, some of them like those of Head-title class might have this value overwritten*/
 p {
     margin:10px;
 }
 
+/*In order to add dashed border for the saved answer box, we use it's ID to add the dashed-gray border
+and also as we have added a border, adding a padding makes it look nicer!*/
 #saved{
     border: 3px dashed slategray;
     padding: 10px;
 
 }
 
+/*
+mostly:    source: https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_animate3
+in the three following blocks, we make a simple animated button.
+The first block is for the button class default attributes.
+The second if for when the cursor is hovered over the button, but not clicked or held.
+The third block is when the button has been activated, meaning it is in a clicked, held or similar state.
+*/
 .button {
   display: inline-block;
   padding: 5px 15px;
@@ -84,6 +118,10 @@ p {
   transform: translateY(2px);
 }
 
+
+/*This block is specifically meant for the pop-up message which is shown mostly in cases of error.
+it's visibility is completely handled by the scripts to avoid confusion if handling it from two different parts.
+As some messages might be long, a max-width is set for this red box with slightly-rounded-edges.*/
 #pop-up-message{
     max-width: 400px;
     margin: 10px;
