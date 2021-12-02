@@ -10,7 +10,7 @@
 
         <p class="Head-title">Mr. or Ms.?</p>
         <label for="input-name">Name:</label>
-        <input id="input-name" type="text" name="name" value="" size="20" maxlength="255"/>
+        <input id="input-name" type="text" name="name" value="" size="20" maxlength="255" pattern="[a-zA-Z\s]+"/>
         <br/>
 
         <p>Choose gender: </p>
@@ -23,8 +23,10 @@
         <br/>
         <br/>
 
-        <button id="submit-form" type="submit" onclick="">Submit!</button>
-        <button id="save-form" onclick="">Save!</button>
+        <button id="submit-form" onclick="" class="button">Submit</button>
+        <br/>
+        <br/>
+        <button id="save-form" onclick="" class="button">Save</button>
 
     </form>
     <div id="results" class="grid-item">
@@ -32,14 +34,15 @@
             <p class="Head-title">
                 Prediction:
             </p>
-            <p>Predicted Gender: --- </p>
-            <p>Probability: --- </p>
+            <p>---- </p>
+            <p>---- </p>
 
         </div>
         <div id="saved">
             <p class="Head-title">
-                Saved Data:
+                Saved Answer:
             </p>
+            <button id="clear-saved" onclick="" class="button">Clear</button>
         </div>
     </div>
 </div>
