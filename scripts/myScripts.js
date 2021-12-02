@@ -19,6 +19,10 @@ window.onload = function() {
     start_up()
 };
 
+function check_valid_name(name){
+    return /^[A-Za-z ]{1,255}$/.test(name);
+}
+
 // onclick event on submit button calls this function.
 function submit_func(){
     event.preventDefault();
@@ -30,6 +34,10 @@ function submit_func(){
 		console.log("please enter a name.")
 	}
 	else{
+	    if (!check_valid_name(input_name.value)){
+	        console.log("Invalid format.")
+	        return;
+	    }
 	    // show the prediction box
 	    document.getElementById('results').style.display = 'block';
 
@@ -61,7 +69,6 @@ function request_api(){
         Sends request to genderize api using the input-name field's value.
         the response text is returned.
     */
-
     var xmlHttp = new XMLHttpRequest();
     url = "https://api.genderize.io"
     let params = new URLSearchParams({
@@ -100,6 +107,10 @@ function save_func(){
     	console.log("please enter a name.")
     	return;
     }
+    if (!check_valid_name(input_name.value)){
+    	console.log("Invalid format.")
+        return;
+    }
 
     selectedGender = get_gender_radio_button_value()
     console.log(selectedGender)
@@ -130,6 +141,11 @@ function clear_func(){
 
     // also do the prediction as the name field might be changed.
     submit_func()
+
+    if (!check_valid_name(input_name.value)){
+    	console.log("Invalid format.")
+        return;
+    }
 
     if(localStorage.getItem(input_name.value)!=null){
         localStorage.removeItem(input_name.value)
